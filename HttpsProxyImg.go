@@ -28,26 +28,29 @@ func main() {
 				return r
 			}
 			file := ctx.Req.Host + ctx.Req.URL.Path
-			p, _ := filepath.Split(file)
-			_, err := os.Stat(file)
-			_, perr := os.Stat(p)
-			if err == nil {
-				return r
-			} else if os.IsNotExist(perr) {
-				os.MkdirAll(p, 0755)
-			}
+			ext := filepath.Ext(file)
+			if ext == ".mp3" || ext == ".png" || ext == ".jpg" || ext == ".jpeg" {
+				p, _ := filepath.Split(file)
+				_, err := os.Stat(file)
+				_, perr := os.Stat(p)
+				if err == nil {
+					return r
+				} else if os.IsNotExist(perr) {
+					os.MkdirAll(p, 0755)
+				}
 
-			log.Println("URL:", ctx.Req.URL, "PATH:", ctx.Req.URL.Path, "Accept:", ctx.Req.Header["Accept"])
-			bs, _ := ioutil.ReadAll(r.Body)
-			fp, err := os.Create(file)
-			if err != nil {
-				log.Println(err)
-			} else {
-				fp.Write(bs)
-				fp.Close()
+				log.Println(file, "URL:", ctx.Req.URL)
+				bs, _ := ioutil.ReadAll(r.Body)
+				fp, err := os.Create(file)
+				if err != nil {
+					log.Println(err)
+				} else {
+					fp.Write(bs)
+					fp.Close()
+				}
+				r.Body = ioutil.NopCloser(bytes.NewReader(bs))
 			}
-			r.Body = ioutil.NopCloser(bytes.NewReader(bs))
 			return r
 		})
-	log.Fatal(http.ListenAndServe(":8080", proxy))
+	log.Fatal(http.ListenAndServe(":8081", proxy))
 }
