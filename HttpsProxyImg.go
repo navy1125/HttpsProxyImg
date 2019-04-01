@@ -9,14 +9,20 @@ import (
 	"path/filepath"
 	"regexp"
 
+	"git.code4.in/mobilegameserver/config"
+	"git.code4.in/mobilegameserver/logging"
+	"git.code4.in/mobilegameserver/unibase"
 	"github.com/elazarl/goproxy"
 )
 
 func main() {
+	config.SetConfig("logfilename", "/tmp/httpimageserver.log")
+	unibase.InitServerLogger("HM")
 	//var Code string = `<script>alert('test')</script>`
 	proxy := goproxy.NewProxyHttpServer()
 	//proxy.OnRequest(goproxy.Not(goproxy.ReqHostMatches(regexp.MustCompile("(.*jdb247.*)|(.*umengcloud.*)|(.*openinstall.*)|(.*383014.*)")))).HandleConnect(goproxy.AlwaysMitm)
-	proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)")))).HandleConnect(goproxy.AlwaysMitm)
+	//proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)")))).HandleConnect(goproxy.AlwaysMitm)
+	proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)|(.*openinstall.*)|(.*jdb247.*)")))).HandleConnect(goproxy.AlwaysMitm)
 	proxy.OnRequest().DoFunc(
 		func(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
 			r.Header.Set("X-GoProxy", "yxorPoG-X")
@@ -39,11 +45,11 @@ func main() {
 					os.MkdirAll(p, 0755)
 				}
 
-				log.Println(file, "URL:", ctx.Req.URL)
+				logging.Debug("下载:%s,%s", file, ctx.Req.URL.String())
 				bs, _ := ioutil.ReadAll(r.Body)
 				fp, err := os.Create(file)
 				if err != nil {
-					log.Println(err)
+					logging.Debug(err.Error())
 				} else {
 					fp.Write(bs)
 					fp.Close()
@@ -53,4 +59,5 @@ func main() {
 			return r
 		})
 	log.Fatal(http.ListenAndServe(":8081", proxy))
+	logging.Final()
 }
