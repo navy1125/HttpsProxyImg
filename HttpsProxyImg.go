@@ -17,6 +17,7 @@ import (
 
 func main() {
 	config.SetConfig("logfilename", "/tmp/httpimageserver.log")
+	unibase.InitConfig("", true, "20190401")
 	unibase.InitServerLogger("HM")
 	//var Code string = `<script>alert('test')</script>`
 	proxy := goproxy.NewProxyHttpServer()
