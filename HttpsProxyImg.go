@@ -23,7 +23,8 @@ func main() {
 	//proxy.OnRequest(goproxy.Not(goproxy.ReqHostMatches(regexp.MustCompile("(.*jdb247.*)|(.*umengcloud.*)|(.*openinstall.*)|(.*383014.*)")))).HandleConnect(goproxy.AlwaysMitm)
 	//proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)")))).HandleConnect(goproxy.AlwaysMitm)
 	//proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)|(.*openinstall.*)|(.*jdb247.*)")))).HandleConnect(goproxy.AlwaysMitm)
-	proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(ws.*)|(.*websocket)|(.*openinstall.*)|(.*jdb247.*)|(.*sxxqsw.*)|(.*fungaming.*)")))).HandleConnect(goproxy.AlwaysMitm)
+	proxy.OnRequest(goproxy.Not(goproxy.UrlMatches(regexp.MustCompile("(api.*)|(ws.*)|(.*websocket)|(.*openinstall.*)|(.*jdb247.*)|(.*sxxqsw.*)|(.*fungaming.*)")))).HandleConnect(goproxy.AlwaysMitm)
+	//proxy.OnRequest(goproxy.UrlMatches(regexp.MustCompile("(.*png)|(.*jpg)|(.*jpeg)|(.*mp3)"))).HandleConnect(goproxy.AlwaysMitm)
 	proxy.OnRequest().DoFunc(
 		func(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
 			r.Header.Set("X-GoProxy", "yxorPoG-X")
