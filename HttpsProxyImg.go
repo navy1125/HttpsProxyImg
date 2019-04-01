@@ -41,7 +41,7 @@ func main() {
 			}
 			file := ctx.Req.Host + ctx.Req.URL.Path
 			ext := filepath.Ext(file)
-			if ext == ".mp3" || ext == ".png" || ext == ".jpg" || ext == ".jpeg" {
+			if ext == ".mp3" || ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".zip" {
 				p, _ := filepath.Split(file)
 				_, err := os.Stat(file)
 				_, perr := os.Stat(p)
