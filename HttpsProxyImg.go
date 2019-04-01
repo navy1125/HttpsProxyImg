@@ -17,6 +17,7 @@ import (
 
 func main() {
 	config.SetConfig("logfilename", "/tmp/httpimageserver.log")
+	config.SetConfig("ipport", ":8081")
 	unibase.InitConfig("", true, "20190401")
 	unibase.InitServerLogger("HM")
 	//var Code string = `<script>alert('test')</script>`
@@ -61,6 +62,7 @@ func main() {
 			}
 			return r
 		})
-	log.Fatal(http.ListenAndServe(":8081", proxy))
+	logging.Info("http.ListenAndServe:%s", config.GetConfigStr("ipport"))
+	log.Fatal(http.ListenAndServe(config.GetConfigStr("ipport"), proxy))
 	logging.Final()
 }
