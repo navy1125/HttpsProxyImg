@@ -12,6 +12,7 @@ import (
 	"git.code4.in/mobilegameserver/config"
 	"git.code4.in/mobilegameserver/logging"
 	"git.code4.in/mobilegameserver/unibase"
+	"git.code4.in/mobilegameserver/unibase/uniutil"
 	"github.com/elazarl/goproxy"
 )
 
@@ -20,6 +21,7 @@ func main() {
 	config.SetConfig("ipport", ":8081")
 	unibase.InitConfig("", true, "20190401")
 	unibase.InitServerLogger("HM")
+	uniutil.TRLogger(config.GetConfigStr("logfilename"), "debug", "HM", "060102-15", config.GetConfigBool("daemon"))
 	//var Code string = `<script>alert('test')</script>`
 	proxy := goproxy.NewProxyHttpServer()
 	//proxy.OnRequest(goproxy.Not(goproxy.ReqHostMatches(regexp.MustCompile("(.*jdb247.*)|(.*umengcloud.*)|(.*openinstall.*)|(.*383014.*)")))).HandleConnect(goproxy.AlwaysMitm)
