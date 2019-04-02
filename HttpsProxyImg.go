@@ -12,6 +12,7 @@ import (
 	"git.code4.in/mobilegameserver/config"
 	"git.code4.in/mobilegameserver/logging"
 	"git.code4.in/mobilegameserver/unibase"
+	"git.code4.in/mobilegameserver/unibase/unitime"
 	"git.code4.in/mobilegameserver/unibase/uniutil"
 	"github.com/elazarl/goproxy"
 )
@@ -36,6 +37,7 @@ func main() {
 		})
 	proxy.OnResponse().DoFunc(
 		func(r *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+			unitime.Time.SetNow()
 			if ctx.Req.Method != "GET" {
 				return r
 			}
